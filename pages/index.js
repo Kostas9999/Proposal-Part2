@@ -6,7 +6,7 @@ export default function Home({data}) {
 
   return (
         <>
-         <Navbar />
+      
          <br></br> <br></br>
 
            
@@ -59,7 +59,7 @@ export default function Home({data}) {
              
              <br></br> <br></br>
             
-        <Footer/>
+        
              
         </>
   )
