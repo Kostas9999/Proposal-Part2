@@ -6,15 +6,17 @@ const si = require('systeminformation');
 
 const nets = os.networkInterfaces();
 
-si.cpuTemperature()
-  .then(data => {
-    console.log('CPU Information:');
-    console.log('- manufacturer: ' + data.cores);
 
-  })
-  .catch(error => console.error(error));
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+
+  
+ 
+    
+  
+
+  
+ 
   res.status(200).json(
     {"OS":
     [
@@ -33,8 +35,12 @@ export default function handler(req, res) {
 
           "cpu" : JSON.stringify(os.cpus()[0].model),
           "cputemp" : si.cpu().cores
+
+         
           
         }
+
+       
     ]
     
   
