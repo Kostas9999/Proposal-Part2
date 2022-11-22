@@ -1,32 +1,20 @@
 
 
          import { Collapse, Text, Grid, Avatar, Link } from "@nextui-org/react";
-
-
-let dataa;
-
- async function test() {
-    // Fetch data from external API
-    const res = await fetch(`http://localhost:3000/api/hello`)
-   dataa = await res.json()
-  
-    // Pass data to the page via props
- return(dataa)
-    
-  }
+       
 
 
 
-export default function Home({data}) {
+
+
+export default function Home({data, routes_data, ports_data, tasks_data }) {
 
 
 
-test()
 
   
 
  
-console.log(dataa)
 
   return (
         <>
@@ -80,19 +68,21 @@ console.log(dataa)
           </Collapse>
           <Collapse
             title={<Text h4>Routes</Text>}
-            subtitle={
-              <Text>
-               get routing table from pc
-              </Text>
-            }
-            
           >
-
-{
-
-
-           
-}
+<Text h5>{routes_data}</Text>
+            
+          </Collapse>
+          <Collapse
+            title={<Text h4>Ports</Text>}
+          >
+<Text h5>{ports_data}</Text>
+            
+          </Collapse>
+          <Collapse
+            title={<Text h4>Tasklist</Text>}
+          >
+<Text h5>{tasks_data}</Text>
+            
           </Collapse>
         </Collapse.Group>
       </Grid>
@@ -124,13 +114,36 @@ console.log(dataa)
 
 // This gets called on every request
 export async function getServerSideProps() {
+
+ //nodeCmd.run('netstat -a -n -o', (err, data, stderr) => console.log(data));
+ //nodeCmd.run('netstat -r', (err, data, stderr) => console.log(data));
+ //nodeCmd.run('tasklist /svc /FI "PID eq 5256"', (err, data, stderr) => console.log(data));
+
   // Fetch data from external API
-  const res = await fetch(`http://localhost:3000/api/hello`)
+  const res = await fetch(`http://localhost:3000/api/os`)
  const data = await res.json()
+
+ const routes = await fetch(`http://localhost:3000/api/routes`)
+ const routes_data = await routes.json()
+
+ const ports = await fetch(`http://localhost:3000/api/ports`)
+ const ports_data = await ports.json()
+
+ const tasks = await fetch(`http://localhost:3000/api/tasks`)
+ const tasks_data = await tasks.json()
+
+ //console.log(routes_data)
+
+
 
   // Pass data to the page via props
   return { 
-    props: { data } 
+    props: { 
+      data: data,
+    routes_data:routes_data,
+    ports_data:ports_data,
+    tasks_data:tasks_data  
+  } 
     
   }
   
