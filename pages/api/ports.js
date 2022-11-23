@@ -8,38 +8,29 @@ const nodeCmd = require('node-cmd');
 const nets = os.networkInterfaces();
 
 
-const listening =[]
+const listeningAll =[]
+const listeningIPv4 =[]
+const listeningIPv6 =[]
 
-export default async function handler(req, res) {
-
- 
+export default async function handler(req, res) { 
   nodeCmd.run('netstat -a -n -o', (err, data, stderr) => 
-  {
-  
+  {  
     const lines = data.split("\r\n")
-
-
     lines.map(res => {
-
-     
       if(res.includes("LISTENING")){
+        listeningAll.push(res)
 
-        listening.push(res)
+        if(res.includes("]")){
+          listeningIPv6.push(res)
+        }
+        else{
+          listeningIPv4.push(res)
+        }
 
     }
-    
-   
-
     })
-
-
-    res.status(200).json(listening)
- 
+    res.status(200).json(listeningAll) 
   }
-  )
-  
-
-  
- 
-  
+  )  
 }
+
