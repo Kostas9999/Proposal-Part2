@@ -1,6 +1,7 @@
 
 
          import { Collapse, Text, Grid, Avatar, Link } from "@nextui-org/react";
+         const nodeCmd = require('node-cmd');
        
 
 
@@ -52,7 +53,7 @@ export default function Home({data, routes_data, ports_data, tasks_data }) {
             } 
           </Collapse>
           <Collapse
-            title={<Text h4>Network</Text>}
+            title={<Text h4>Network Interfaces</Text>}
            
           >
             {
@@ -134,7 +135,11 @@ export async function getServerSideProps() {
 
  //console.log(routes_data)
 
-
+ nodeCmd.run('ping 192.168.11.1', (err, data, stderr) => 
+ {
+   console.log(data)
+ }
+ )
 
   // Pass data to the page via props
   return { 
