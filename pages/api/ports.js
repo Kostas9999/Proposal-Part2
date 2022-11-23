@@ -8,14 +8,33 @@ const nodeCmd = require('node-cmd');
 const nets = os.networkInterfaces();
 
 
+const listening =[]
 
 export default async function handler(req, res) {
 
-  
  
   nodeCmd.run('netstat -a -n -o', (err, data, stderr) => 
   {
-    res.status(200).json(data)
+  
+    const lines = data.split("\r\n")
+
+
+    lines.map(res => {
+
+     
+      if(res.includes("LISTENING")){
+
+        listening.push(res)
+
+    }
+    
+   
+
+    })
+
+
+    res.status(200).json(listening)
+ 
   }
   )
   

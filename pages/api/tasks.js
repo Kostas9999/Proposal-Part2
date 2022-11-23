@@ -15,7 +15,8 @@ export default async function handler(req, res) {
  
   nodeCmd.run('tasklist /svc', (err, data, stderr) => 
   {
-    res.status(200).json(data)
+    const lines = data.split("\r\n")
+    res.status(200).json(lines)
   }
   )
   

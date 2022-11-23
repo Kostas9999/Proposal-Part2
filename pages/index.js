@@ -58,31 +58,51 @@ export default function Home({data, routes_data, ports_data, tasks_data }) {
           >
             {
            data.OS.map(name => {
-              return(<>
-              
+              return(<>              
               <Text h5>  Homedir: {name.net}</Text>
-              
-              
-              
               </>)})
               }
           </Collapse>
           <Collapse
-            title={<Text h4>Routes</Text>}
+            title={<Text h4>ARP</Text>}
           >
-<Text h5>{routes_data}</Text>
+
+{
+
+routes_data.map(data => {
+  return(  
+  <Text h6>{data}</Text>  
+  )})
+}
+
+
             
           </Collapse>
           <Collapse
-            title={<Text h4>Ports</Text>}
+            title={<Text h4>Ports (Listening)</Text>}
           >
-<Text h5>{ports_data}</Text>
+
+{
+
+ports_data.map(data => {
+  return(  
+  <Text h6>{data}</Text>  
+  )})
+
+  
+}
             
           </Collapse>
           <Collapse
             title={<Text h4>Tasklist</Text>}
           >
-<Text h5>{tasks_data}</Text>
+{
+
+tasks_data.map(data => {
+  return(  
+  <Text h6>{data}</Text>  
+  )})
+}
             
           </Collapse>
         </Collapse.Group>
@@ -137,9 +157,17 @@ export async function getServerSideProps() {
 
  nodeCmd.run('ping 192.168.11.1', (err, data, stderr) => 
  {
-   console.log(data)
+ //  console.log(data)
  }
  )
+
+
+
+
+
+
+
+
 
   // Pass data to the page via props
   return { 
