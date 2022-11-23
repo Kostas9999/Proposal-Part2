@@ -3,23 +3,21 @@
          import { Collapse, Text, Grid, Avatar, Link } from "@nextui-org/react";
          const nodeCmd = require('node-cmd');
        
+         import {SSRProvider} from 'react-aria';
 
 
 
 
-
-export default function Home({data, routes_data, ports_data, tasks_data }) {
-
+export default function Home({hw_data,os_data, network_data,routes_data, ports_data, tasks_data }) {
 
 
 
-  
 
  
 
   return (
-        <>
       
+      <SSRProvider>
          <br></br> <br></br>
 
 
@@ -27,41 +25,71 @@ export default function Home({data, routes_data, ports_data, tasks_data }) {
          <Grid.Container gap={2}>
       <Grid >
         <Collapse.Group shadow>
-          <Collapse
+
+        <Collapse
             title={<Text h4>Hardware</Text>}
           >
         {
-             data.OS.map(name => {
-              return(
-                <>
-                <Text h5> HostName: {name.HostName}<br></br>
-                 CPU: { name.cpu} <br></br>
-                 Free Memory: {(name.freemem)/1000000000} GB<br></br>
-                 Total Memory: {(name.totmem)/1000000000} GB <br></br>
-                 OS: {name.version} <br></br>
-                 Platform: {name.platform} <br></br>
-                 Relese: {name.relese}<br></br>
-                 OS Type: {name.type}<br></br>
-                 Uptime: {name.uptime} sec<br></br>
-                 UserName: {name.userInfo}   <br></br>   
-                 Homedir: {name.homedir}</Text> 
-                </>
-              )
-             }
-              
-              )
-            } 
+             hw_data.HW.map(name => {
+                        return(
+                          <>
+                          <Text h5> CPU: {name.uuid}<br></br>
+                          OS: {name.version} <br></br>
+            
+                          </Text>                  
+                          </>
+                        )
+                   }              
+                  )
+                  } 
           </Collapse>
+       
+          <Collapse
+            title={<Text h4>Operating System</Text>}
+          >
+        {
+             os_data.OS.map(name => {
+                        return(
+                          <>
+                          <Text h5> HostName: {name.HostName}<br></br>
+                          OS: {name.version} <br></br>
+                          Platform: {name.platform} <br></br>
+                          Relese: {name.relese}<br></br>
+                          OS build: {name.build}<br></br>
+                          Serial: {name.serial} <br></br>
+                          </Text>                  
+                          </>
+                        )
+                   }              
+                  )
+                  } 
+          </Collapse>
+          
           <Collapse
             title={<Text h4>Network Interfaces</Text>}
            
           >
+             
             {
-           data.OS.map(name => {
-              return(<>              
-              <Text h5>  Homedir: {name.net}</Text>
-              </>)})
+           network_data.network.map(name => {
+           
+              return(
+                <>
+                <Text h5> DNS Surffix: {name.dnsSur}<br></br>
+                Speed: {name.speed} MB/s<br></br>
+                MAC: {name.mac} <br></br><br></br>
+                IPv4: {name.IPv4} <br></br>
+                IPv4 Mask: {name.IPv4Sub} <br></br>
+                <br></br>
+                IPv6: {name.IPv6} <br></br>
+                IPv6 Mask: {name.IPv6Sub} <br></br>         
+                </Text>                  
+                </>
+              )
+         }              
+        )
               }
+             
           </Collapse>
           <Collapse
             title={<Text h4>ARP</Text>}
@@ -127,9 +155,9 @@ tasks_data.map(data => {
              
              <br></br> <br></br>
             
-        
+             </SSRProvider>
              
-        </>
+       
   )
 }
 
@@ -141,8 +169,14 @@ export async function getServerSideProps() {
  //nodeCmd.run('tasklist /svc /FI "PID eq 5256"', (err, data, stderr) => console.log(data));
 
   // Fetch data from external API
-  const res = await fetch(`http://localhost:3000/api/os`)
- const data = await res.json()
+  const hw = await fetch(`http://localhost:3000/api/hardware`)
+ const hw_data = await hw.json()
+
+ const os = await fetch(`http://localhost:3000/api/os`)
+ const os_data = await os.json()
+
+ const network = await fetch(`http://localhost:3000/api/network`)
+ const network_data = await network.json()
 
  const routes = await fetch(`http://localhost:3000/api/routes`)
  const routes_data = await routes.json()
@@ -172,7 +206,9 @@ export async function getServerSideProps() {
   // Pass data to the page via props
   return { 
     props: { 
-      data: data,
+      hw_data: hw_data,
+    os_data: os_data,
+    network_data:network_data,
     routes_data:routes_data,
     ports_data:ports_data,
     tasks_data:tasks_data  

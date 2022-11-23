@@ -3,27 +3,24 @@
 
 
 const si = require('systeminformation');
+let totmem ="";
 
-
-
+si.cpu(i=>{
+  totmem = i.total
+})
 
 
 
 export default async function handler(req, res) {
 
  
-  si.osInfo(i=>{
+  si.cpu(i=>{
  
   res.status(200).json(
-                {"OS":
+                {"HW":
                 [
                     {
-                        "HostName" : i.hostname,
-                        "platform" : i.platform,
-                        "version" : i.distro,
-                        "relese" : i.release,
-                        "build" : i.build,
-                        "serial" : i.serial,
+                        "uuid" : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ i.cores +"T" 
                     }
                 ]
             

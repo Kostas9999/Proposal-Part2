@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+//https://www.npmjs.com/package/systeminformation
 
 
 export const os = require('node:os');
@@ -13,6 +14,12 @@ const listeningIPv4 =[]
 const listeningIPv6 =[]
 
 export default async function handler(req, res) { 
+
+  
+
+
+
+
   nodeCmd.run('netstat -a -n -o', (err, data, stderr) => 
   {  
     const lines = data.split("\r\n")
