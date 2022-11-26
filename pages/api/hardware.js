@@ -13,12 +13,16 @@ let memProc;
 
 
 export default async function handler(req, res) {
-
+  let HWUUID = "def";
+ 
   si.mem(p=>{
     memTotal = p.total
     memFree = p.free
   })
-
+ 
+    si.uuid(cb=>{
+     HWUUID = cb.hardware
+  })
  
  
   si.currentLoad(p=>{
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
                         "uuid" : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ i.cores +"T" ,
                         "cpuLoad": cpuLoad,
                         "memTotal": memTotal,
-                        "memFree": memFree,
+                        "HWUUID": HWUUID,
                         "memProc":  ((memTotal-memFree)/memTotal)*100,
                       
                     }
@@ -45,4 +49,6 @@ export default async function handler(req, res) {
 
 
   }) 
+  module.exports = HWUUID;
 }
+

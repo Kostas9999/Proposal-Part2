@@ -13,7 +13,9 @@ export default async function handler(req, res) {
   let user;
 
  
-
+  si.uuid(cb=>{
+    user = cb.os
+  })
 
   si.osInfo(i=>{
  
@@ -22,7 +24,7 @@ export default async function handler(req, res) {
                 [
                     {
                         "HostName" : i.hostname,
-                        "platform" : i.platform,
+                        "platform" : user,
                         "version" : i.distro,
                         "relese" : i.release,
                         "build" : i.build,

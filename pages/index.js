@@ -34,10 +34,10 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
                         return(
                           <>
                           <Text h5> CPU: {name.uuid}<br></br>
-                          CPU Load: {name.cpuLoad} % To be tested <br></br>
+                
                           Total Memory: {name.memTotal} <br></br>
-                          Free Memory: {name.memFree} <br></br>
-                          Free Usage: {name.memProc} %<br></br>
+                          Memory Usage: {name.memProc} %<br></br>
+                          UUID: {name.HWUUID} <br></br>
             
                           </Text>                  
                           </>
@@ -56,7 +56,7 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
                           <>
                           <Text h5> HostName: {name.HostName}<br></br>
                           OS: {name.version} <br></br>
-                          Platform: {name.platform} <br></br>
+                          UUID: {name.platform} <br></br>
                           Relese: {name.relese}<br></br>
                           OS build: {name.build}<br></br>
                           Serial: {name.serial} <br></br>
