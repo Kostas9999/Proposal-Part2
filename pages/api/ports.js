@@ -6,33 +6,41 @@
 const si = require('systeminformation');
 
 
-let list=[];
+
 
 export default async function handler(req, res) { 
-
-  si.processes(processCB=>{  
-    list = processCB.list
-
-  si.networkConnections(networkCB=>{
-    networkCB.forEach(element => {
-    if(element.state == "LISTEN"){
-
-console.log(list[6])
-
-    //  let obj = list.find(o => o.pid === networkCB.pid);
-
-     // console.log(obj);
-
-     // console.log(element.localPort +"\t"+element.state+"\t"+element.pid+"\t"+obj.name)
-    }
+  let list=[];
+  let ports=[];
+  await si.processes(processCB=>{  list = processCB.list  })
 
 
-    
-   });
-      
-  })
 
-})
+  await si.networkConnections(networkCB=>{
+        networkCB.forEach(element => {
+             if(element.state == "LISTEN"){    
 
+                  for(const proc of list  ){
+
+                  if(proc.pid  == element.pid)
+                 
+
+                        ports.push(
+                        {
+                        portNr : element.localPort,
+                        procName : proc.name,
+                        procPID : proc.pid,
+                        procpath : proc.path
+                        })
+                  
+                  }
+                }
+               
+             })
+            
+            })
+
+            res.status(200).json(ports)
+           
+           
 }
 

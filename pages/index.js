@@ -1,14 +1,14 @@
 
 
          import { Collapse, Text, Grid, Avatar, Link } from "@nextui-org/react";
-         const nodeCmd = require('node-cmd');
+   //      const nodeCmd = require('node-cmd');
        
-         import {SSRProvider} from 'react-aria';
+     
 
 
 
 
-export default function Home({hw_data,os_data, network_data,networkStats_data, routes_data, ports_data, tasks_data }) {
+export default function Home({hw_data,os_data, network_data,networkStats_data, routes_data, ports_data}) {
 
 
 
@@ -17,7 +17,7 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
 
   return (
       
-      <SSRProvider>
+      <>
          <br></br> <br></br>
 
 
@@ -136,25 +136,14 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
 
 ports_data.map(data => {
   return(  
-  <Text h6>{data}</Text>  
+  <Text h6>: {data.portNr} : {data.procName} :{data.procPID} : {data.procpath}</Text>  
   )})
 
   
 }
             
           </Collapse>
-          <Collapse
-            title={<Text h4>Tasklist</Text>}
-          >
-{
-
-tasks_data.map(data => {
-  return(  
-  <Text h6>{data}</Text>  
-  )})
-}
-            
-          </Collapse>
+         
 
 
           <Collapse
@@ -190,8 +179,8 @@ routes_data.map(data => {
              
              <br></br> <br></br>
             
-             </SSRProvider>
-             
+            
+            </>
        
   )
 }
@@ -222,24 +211,25 @@ export async function getServerSideProps() {
  const ports = await fetch(`http://localhost:3000/api/ports`)
  const ports_data = await ports.json()
 
- const tasks = await fetch(`http://localhost:3000/api/tasks`)
- const tasks_data = await tasks.json()
 
- //console.log(routes_data)
+ //console.log(ports_data)
+/*
 
- nodeCmd.run('ping 192.168.11.1', (err, data, stderr) => 
- {
- //  console.log(data)
- }
- )
+let interval = 10000;
 
+setInterval(
+ await call,interval
+)
 
-
-
-
-
-
-
+async function call(){
+  const ports = await fetch(`http://localhost:3000/api/ports`)
+  const ports_data = await ports.json()
+  
+  console.log(ports_data)
+  console.log(ports_data.length)
+  if(ports_data.length > 0){interval =1000000}
+}
+*/
 
   // Pass data to the page via props
   return { 
@@ -250,7 +240,7 @@ export async function getServerSideProps() {
     networkStats_data:networkStats_data, 
     routes_data:routes_data,
     ports_data:ports_data,
-    tasks_data:tasks_data,
+
      
   } 
     
