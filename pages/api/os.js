@@ -4,14 +4,17 @@
 
 const si = require('systeminformation');
 
-
+const os = require('node:os');
 
 
 
 
 export default async function handler(req, res) {
+  let user;
 
  
+
+
   si.osInfo(i=>{
  
   res.status(200).json(
@@ -24,6 +27,7 @@ export default async function handler(req, res) {
                         "relese" : i.release,
                         "build" : i.build,
                         "serial" : i.serial,
+                        "uptime" : os.uptime()
                     }
                 ]
             

@@ -3,15 +3,26 @@
 
 
 const si = require('systeminformation');
-let totmem ="";
+let cpuLoad;
+let memTotal;
+let memFree;
+let memProc;
 
 
 
 
 
 export default async function handler(req, res) {
+
   si.mem(p=>{
-    totmem = p.total
+    memTotal = p.total
+    memFree = p.free
+  })
+
+ 
+ 
+  si.currentLoad(p=>{
+    cpuLoad = p.currentLoad
   })
  
   si.cpu(i=>{
@@ -20,7 +31,12 @@ export default async function handler(req, res) {
                 {"HW":
                 [
                     {
-                        "uuid" : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ totmem +"T" 
+                        "uuid" : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ i.cores +"T" ,
+                        "cpuLoad": cpuLoad,
+                        "memTotal": memTotal,
+                        "memFree": memFree,
+                        "memProc":  ((memTotal-memFree)/memTotal)*100,
+                      
                     }
                 ]
             

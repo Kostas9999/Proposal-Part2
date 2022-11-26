@@ -8,7 +8,7 @@
 
 
 
-export default function Home({hw_data,os_data, network_data,routes_data, ports_data, tasks_data }) {
+export default function Home({hw_data,os_data, network_data,networkStats_data, routes_data, ports_data, tasks_data }) {
 
 
 
@@ -34,7 +34,10 @@ export default function Home({hw_data,os_data, network_data,routes_data, ports_d
                         return(
                           <>
                           <Text h5> CPU: {name.uuid}<br></br>
-                          OS: {name.version} <br></br>
+                          CPU Load: {name.cpuLoad} % To be tested <br></br>
+                          Total Memory: {name.memTotal} <br></br>
+                          Free Memory: {name.memFree} <br></br>
+                          Free Usage: {name.memProc} %<br></br>
             
                           </Text>                  
                           </>
@@ -57,6 +60,7 @@ export default function Home({hw_data,os_data, network_data,routes_data, ports_d
                           Relese: {name.relese}<br></br>
                           OS build: {name.build}<br></br>
                           Serial: {name.serial} <br></br>
+                          Uptime: {name.uptime} <br></br>
                           </Text>                  
                           </>
                         )
@@ -75,7 +79,7 @@ export default function Home({hw_data,os_data, network_data,routes_data, ports_d
            
               return(
                 <>
-                <Text h5> DNS Surffix: {name.dnsSur}<br></br>
+                <Text h5> Interface: {name.iface}<br></br>
                 Speed: {name.speed} MB/s<br></br>
                 MAC: {name.mac} <br></br><br></br>
                 IPv4: {name.IPv4} <br></br>
@@ -91,21 +95,39 @@ export default function Home({hw_data,os_data, network_data,routes_data, ports_d
               }
              
           </Collapse>
+
           <Collapse
-            title={<Text h4>ARP</Text>}
+            title={<Text h4>Network Stats</Text>}
+           
           >
-
-{
-
-routes_data.map(data => {
-  return(  
-  <Text h6>{data}</Text>  
-  )})
-}
-
-
-            
+             
+            {
+           networkStats_data.networkStats.map(name => {
+           
+              return(
+                <>
+                <Text h5> Interface: {name.iface}<br></br>
+                State: {name.state}<br></br>
+                <br></br>
+                rx_total: {name.rx_total} <br></br>
+                rx_Dropped: {name.rx_Dropped} <br></br>
+                rx_error: {name.rx_error} <br></br>
+                <br></br>
+                tx_total: {name.tx_total} <br></br>
+                tx_Dropped: {name.tx_Dropped} <br></br>
+                tx_error: {name.tx_error} <br></br>
+                <br></br>
+                localLatency: {name.localLatency} ms <br></br>
+                publicLatency: {name.publicLatency} ms <br></br>         
+                </Text>                  
+                </>
+              )
+         }              
+        )
+              }
+             
           </Collapse>
+
           <Collapse
             title={<Text h4>Ports (Listening)</Text>}
           >
@@ -132,6 +154,19 @@ tasks_data.map(data => {
   )})
 }
             
+          </Collapse>
+
+
+          <Collapse
+            title={<Text h4>ARP</Text>}
+          >
+{
+
+routes_data.map(data => {
+  return(  
+  <Text h6>{data}</Text>  
+  )})
+}            
           </Collapse>
         </Collapse.Group>
       </Grid>
@@ -178,6 +213,9 @@ export async function getServerSideProps() {
  const network = await fetch(`http://localhost:3000/api/network`)
  const network_data = await network.json()
 
+ const networkStats = await fetch(`http://localhost:3000/api/networkStats`)
+ const networkStats_data = await networkStats.json()
+
  const routes = await fetch(`http://localhost:3000/api/routes`)
  const routes_data = await routes.json()
 
@@ -209,9 +247,11 @@ export async function getServerSideProps() {
       hw_data: hw_data,
     os_data: os_data,
     network_data:network_data,
+    networkStats_data:networkStats_data, 
     routes_data:routes_data,
     ports_data:ports_data,
-    tasks_data:tasks_data  
+    tasks_data:tasks_data,
+     
   } 
     
   }

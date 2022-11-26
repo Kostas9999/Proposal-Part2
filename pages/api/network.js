@@ -10,28 +10,41 @@ const si = require('systeminformation');
 
 
 export default async function handler(req, res) {
-
+  
+  let test;
+  let intDeff;
  
+ 
+
+
+
+
+
+
   si.networkInterfaces(i=>{
+
+    for(const s of i){
+
+      if(s.default){
  
   res.status(200).json(
                 {"network":
                 [
                     {
-                        "dnsSur" : i[1].dnsSuffix,
-                        "speed" : i[1].speed,
-                        "mac" : i[1].mac,
-                        "IPv4" : i[1].ip4,
-                        "IPv4Sub" : i[1].ip4subnet,
-                        "IPv6" : i[1].ip6,
-                        "IPv6Sub" : i[1].ip6subnet,
+                        "iface" : s.iface,
+                        "speed" : s.speed,
+                        "mac" : s.mac,
+                        "IPv4" : s.ip4,
+                        "IPv4Sub" : s.ip4subnet,
+                        "IPv6" : s.ip6,
+                        "IPv6Sub" : s.ip6subnet,
  
                     }
                 ]
             
               }
     )
-
+            }}
 
   })
 }

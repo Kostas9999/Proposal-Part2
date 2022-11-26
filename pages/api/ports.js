@@ -2,42 +2,37 @@
 //https://www.npmjs.com/package/systeminformation
 
 
-export const os = require('node:os');
+
 const si = require('systeminformation');
-const nodeCmd = require('node-cmd');
-
-const nets = os.networkInterfaces();
 
 
-const listeningAll =[]
-const listeningIPv4 =[]
-const listeningIPv6 =[]
+let list=[];
 
 export default async function handler(req, res) { 
 
-  
+  si.processes(processCB=>{  
+    list = processCB.list
 
+  si.networkConnections(networkCB=>{
+    networkCB.forEach(element => {
+    if(element.state == "LISTEN"){
 
+console.log(list[6])
 
+    //  let obj = list.find(o => o.pid === networkCB.pid);
 
-  nodeCmd.run('netstat -a -n -o', (err, data, stderr) => 
-  {  
-    const lines = data.split("\r\n")
-    lines.map(res => {
-      if(res.includes("LISTENING")){
-        listeningAll.push(res)
+     // console.log(obj);
 
-        if(res.includes("]")){
-          listeningIPv6.push(res)
-        }
-        else{
-          listeningIPv4.push(res)
-        }
-
+     // console.log(element.localPort +"\t"+element.state+"\t"+element.pid+"\t"+obj.name)
     }
-    })
-    res.status(200).json(listeningAll) 
-  }
-  )  
+
+
+    
+   });
+      
+  })
+
+})
+
 }
 
