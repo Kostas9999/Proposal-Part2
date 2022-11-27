@@ -4,38 +4,35 @@
 
 const si = require('systeminformation');
 
-const os = require('node:os');
+const nodeos = require('node:os');
 
 
-
+let os;
 
 export default async function handler(req, res) {
-  let user;
+
+
+ await si.osInfo(i=>{
+
+    os = { 
+      HostName : i.hostname,
+     
+      version : i.distro,
+      relese : i.release,
+      build : i.build,
+      serial : i.serial,
+      uptime : nodeos.uptime()
+  }
+
+})
+
+
+
+
 
  
-  si.uuid(cb=>{
-    user = cb.os
-  })
+  res.status(200).json(os)
 
-  si.osInfo(i=>{
- 
-  res.status(200).json(
-                {"OS":
-                [
-                    {
-                        "HostName" : i.hostname,
-                        "platform" : user,
-                        "version" : i.distro,
-                        "relese" : i.release,
-                        "build" : i.build,
-                        "serial" : i.serial,
-                        "uptime" : os.uptime()
-                    }
-                ]
-            
-              }
-    )
+return os;
 
-
-  })
 }

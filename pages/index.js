@@ -29,43 +29,31 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
         <Collapse
             title={<Text h4>Hardware</Text>}
           >
-        {
-             hw_data.HW.map(name => {
-                        return(
+                   {           
                           <>
-                          <Text h5> CPU: {name.uuid}<br></br>
-                
-                          Total Memory: {name.memTotal} <br></br>
-                          Memory Usage: {name.memProc} %<br></br>
-                          UUID: {name.HWUUID} <br></br>
-            
+                          <Text h5> CPU: {hw_data.uuid}<br></br>                
+                          Total Memory: {hw_data.memTotal} <br></br>
+                          Memory Usage: {hw_data.memProc} %<br></br>
+                          UUID: {hw_data.HWUUID} <br></br>            
                           </Text>                  
-                          </>
-                        )
-                   }              
-                  )
-                  } 
+                          </>                       
+                   } 
           </Collapse>
        
           <Collapse
             title={<Text h4>Operating System</Text>}
           >
-        {
-             os_data.OS.map(name => {
-                        return(
+                  {            
                           <>
-                          <Text h5> HostName: {name.HostName}<br></br>
-                          OS: {name.version} <br></br>
-                          UUID: {name.platform} <br></br>
-                          Relese: {name.relese}<br></br>
-                          OS build: {name.build}<br></br>
-                          Serial: {name.serial} <br></br>
-                          Uptime: {name.uptime} <br></br>
+                          <Text h5> HostName: {os_data.HostName}<br></br>
+                          OS: {os_data.version} <br></br>
+                        
+                          Relese: {os_data.relese}<br></br>
+                          OS build: {os_data.build}<br></br>
+                          Serial: {os_data.serial} <br></br>
+                          Uptime: {os_data.uptime} <br></br>
                           </Text>                  
-                          </>
-                        )
-                   }              
-                  )
+                          </>                 
                   } 
           </Collapse>
           
@@ -75,23 +63,19 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
           >
              
             {
-           network_data.network.map(name => {
-           
-              return(
+          
                 <>
-                <Text h5> Interface: {name.iface}<br></br>
-                Speed: {name.speed} MB/s<br></br>
-                MAC: {name.mac} <br></br><br></br>
-                IPv4: {name.IPv4} <br></br>
-                IPv4 Mask: {name.IPv4Sub} <br></br>
+                <Text h5> Interface: {network_data.iface}<br></br>
+                Speed: {network_data.speed} MB/s<br></br>
+                MAC: {network_data.mac} <br></br><br></br>
+                IPv4: {network_data.IPv4} <br></br>
+                IPv4 Mask: {network_data.IPv4Sub} <br></br>
                 <br></br>
-                IPv6: {name.IPv6} <br></br>
-                IPv6 Mask: {name.IPv6Sub} <br></br>         
+                IPv6: {network_data.IPv6} <br></br>
+                IPv6 Mask: {network_data.IPv6Sub} <br></br>         
                 </Text>                  
                 </>
-              )
-         }              
-        )
+       
               }
              
           </Collapse>
@@ -102,28 +86,24 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
           >
              
             {
-           networkStats_data.networkStats.map(name => {
-           
-              return(
+          
                 <>
-                <Text h5> Interface: {name.iface}<br></br>
-                State: {name.state}<br></br>
+                <Text h5> Interface: {networkStats_data.iface}<br></br>
+                State: {networkStats_data.state}<br></br>
                 <br></br>
-                rx_total: {name.rx_total} <br></br>
-                rx_Dropped: {name.rx_Dropped} <br></br>
-                rx_error: {name.rx_error} <br></br>
+                rx_total: {networkStats_data.rx_total} <br></br>
+                rx_Dropped: {networkStats_data.rx_Dropped} <br></br>
+                rx_error: {networkStats_data.rx_error} <br></br>
                 <br></br>
-                tx_total: {name.tx_total} <br></br>
-                tx_Dropped: {name.tx_Dropped} <br></br>
-                tx_error: {name.tx_error} <br></br>
+                tx_total: {networkStats_data.tx_total} <br></br>
+                tx_Dropped: {networkStats_data.tx_Dropped} <br></br>
+                tx_error: {networkStats_data.tx_error} <br></br>
                 <br></br>
-                localLatency: {name.localLatency} ms <br></br>
-                publicLatency: {name.publicLatency} ms <br></br>         
+                localLatency: {networkStats_data.localLatency} ms <br></br>
+                publicLatency: {networkStats_data.publicLatency} ms <br></br>         
                 </Text>                  
                 </>
-              )
-         }              
-        )
+      
               }
              
           </Collapse>
@@ -198,6 +178,7 @@ export async function getServerSideProps() {
 
  const os = await fetch(`http://localhost:3000/api/os`)
  const os_data = await os.json()
+
 
  const network = await fetch(`http://localhost:3000/api/network`)
  const network_data = await network.json()

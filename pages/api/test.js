@@ -1,12 +1,13 @@
-let  t = require('./network_copy');
+let  networkInterace = require('./network');
 
-function dosmth(thing){
-
+async function dosmth(){
+let networkInt;
     
 
 
-    t().then((a)=>{console.log(a)})
+   await  networkInterace().then((data)=>{(networkInt = data)})
+    console.log(networkInt)
 
 }
 
-dosmth("g");
+dosmth();

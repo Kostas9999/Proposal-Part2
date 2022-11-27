@@ -8,7 +8,7 @@ let memTotal;
 let memFree;
 let memProc;
 
-
+let hardware;
 
 
 
@@ -29,26 +29,22 @@ export default async function handler(req, res) {
     cpuLoad = p.currentLoad
   })
  
-  await  si.cpu(i=>{
- 
-  res.status(200).json(
-                {"HW":
-                [
-                    {
-                        "uuid" : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ i.cores +"T" ,
-                        "cpuLoad": cpuLoad,
-                        "memTotal": memTotal,
-                        "HWUUID": HWUUID,
-                        "memProc":  ((memTotal-memFree)/memTotal)*100,
-                      
-                    }
-                ]
-            
-              }
-    )
+  await  si.cpu(i=>{ 
 
+    hardware = { 
+      uuid : i.brand + " " + i.speed +"GHz " + i.physicalCores +"C/"+ i.cores +"T" ,
+      memTotal: memTotal,      
+      memProc:  ((memTotal-memFree)/memTotal)*100,
+      HWUUID: HWUUID,
+  }
 
   }) 
+    
+ 
+  res.status(200).json(hardware)
+
+return hardware
+ 
 
 }
 
