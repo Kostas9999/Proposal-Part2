@@ -8,7 +8,7 @@ export default function Handler(res, response) {
 
  
 
-console.log( hw)
+console.log( hw.Handler)
 
   connection.query(
     "SELECT * FROM machine;",

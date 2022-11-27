@@ -15,21 +15,21 @@ let memProc;
 export default async function handler(req, res) {
   let HWUUID = "def";
  
-  si.mem(p=>{
+ await si.mem(p=>{
     memTotal = p.total
     memFree = p.free
   })
  
-    si.uuid(cb=>{
+  await  si.uuid(cb=>{
      HWUUID = cb.hardware
   })
  
  
-  si.currentLoad(p=>{
+  await  si.currentLoad(p=>{
     cpuLoad = p.currentLoad
   })
  
-  si.cpu(i=>{
+  await  si.cpu(i=>{
  
   res.status(200).json(
                 {"HW":
@@ -49,6 +49,6 @@ export default async function handler(req, res) {
 
 
   }) 
-  module.exports = HWUUID;
+
 }
 
