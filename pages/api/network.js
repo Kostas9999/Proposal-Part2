@@ -5,21 +5,10 @@
 const si = require('systeminformation');
 
 
-
-
-
-
 export default async function handler(req, res) {
   
   let test;
   let intDeff;
- 
- 
-
-
-
-
-
 
   si.networkInterfaces(i=>{
 
