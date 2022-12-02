@@ -85,26 +85,7 @@ export default function Home({hw_data,os_data, network_data,networkStats_data, r
            
           >
              
-            {
-          
-                <>
-                <Text h5> Interface: {networkStats_data.iface}<br></br>
-                State: {networkStats_data.state}<br></br>
-                <br></br>
-                rx_total: {networkStats_data.rx_total} <br></br>
-                rx_Dropped: {networkStats_data.rx_Dropped} <br></br>
-                rx_error: {networkStats_data.rx_error} <br></br>
-                <br></br>
-                tx_total: {networkStats_data.tx_total} <br></br>
-                tx_Dropped: {networkStats_data.tx_Dropped} <br></br>
-                tx_error: {networkStats_data.tx_error} <br></br>
-                <br></br>
-                localLatency: {networkStats_data.localLatency} ms <br></br>
-                publicLatency: {networkStats_data.publicLatency} ms <br></br>         
-                </Text>                  
-                </>
-      
-              }
+            
              
           </Collapse>
 
